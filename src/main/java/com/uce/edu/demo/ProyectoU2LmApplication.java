@@ -7,9 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.uce.edu.demo.estudiante.repository.modelo.Estudiante;
-import com.uce.edu.demo.estudiante.service.IEstudianteJdbcService;
-import com.uce.edu.demo.estudiante.service.IEstudianteJpaService;
-import com.uce.edu.demo.service.IPersonaJdbcService;
+import com.uce.edu.demo.repository.modelo.Persona;
 import com.uce.edu.demo.service.IPersonaJpaService;
 
 @SpringBootApplication
@@ -18,7 +16,7 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	private static Logger LOG = Logger.getLogger(ProyectoU2LmApplication.class);
 
 	@Autowired
-	private IEstudianteJpaService iEstudianteJpaService;
+	private IPersonaJpaService iPersonaJpaService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoU2LmApplication.class, args);
@@ -28,53 +26,24 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 
-		Estudiante e1 = new Estudiante();
+		
+		Persona e4 = new Persona();
 
-		e1.setId(1);
-		e1.setNombre("Juan");
-		e1.setApellido("Velastegui");
-		e1.setSemestre("sexto");
-		e1.setCategoria("Excelencia");
+		e4.setNombre("Pepito7");
+		e4.setApellido("Perez7");
 
-		this.iEstudianteJpaService.guardar(e1);
-		LOG.info("Se ingreso el estudiante: " + e1);
+		this.iPersonaJpaService.guardar(e4);
+		
+		
+		
+		
+		
+		//LOG.info("Se ha actualizado el estudiante: " + this.iEstudianteJpaService.buscar(3));
 
-		Estudiante e2 = new Estudiante();
+		//this.iPersonaJpaService.eliminar(3);
+		//this.iPersonaJpaService.eliminar(5);
 
-		e2.setId(2);
-		e2.setNombre("Nicol");
-		e2.setApellido("Ramirez");
-		e2.setSemestre("cuarto");
-		e2.setCategoria("Promedio");
-
-		this.iEstudianteJpaService.guardar(e2);
-		LOG.info("Se ingreso el estudiante: " + e2);
-
-		Estudiante e3 = new Estudiante();
-
-		e3.setId(3);
-		e3.setNombre("Pablo");
-		e3.setApellido("Buitron");
-		e3.setSemestre("sexto");
-		e3.setCategoria("Promedio");
-
-		this.iEstudianteJpaService.guardar(e3);
-		LOG.info("Se ingreso el estudiante: " + e3);
-
-		Estudiante e4 = new Estudiante();
-
-		e4.setNombre("Alejandra");
-		e4.setApellido("Altamirano");
-		e4.setSemestre("quinto");
-		e4.setCategoria("Bajo");
-		e4.setId(3);
-
-		this.iEstudianteJpaService.actualizar(e4);
-		LOG.info("Se ha actualizado el estudiante: " + this.iEstudianteJpaService.buscar(3));
-
-		this.iEstudianteJpaService.eliminar(1);
-
-		LOG.info("Se ha busado el estudiante: " + this.iEstudianteJpaService.buscar(2));
+		//LOG.info("Se ha busado el estudiante: " + this.iEstudianteJpaService.buscar(2));
 
 	}
 
