@@ -27,40 +27,39 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 
-		
 		Persona e4 = new Persona();
-/*
-		e4.setNombre("Juan");
-		e4.setApellido("Perez");
-		e4.setCedula("1990");
-		e4.setGenero("M");
+		/*
+		 * e4.setNombre("Juan"); e4.setApellido("Perez"); e4.setCedula("1990");
+		 * e4.setGenero("M");
+		 * 
+		 * this.iPersonaJpaService.guardar(e4);
+		 * 
+		 * Persona e5 = new Persona();
+		 * 
+		 * e5.setNombre("Alejandra"); e5.setApellido("Perez"); e5.setCedula("1230");
+		 * e5.setGenero("F");
+		 * 
+		 * this.iPersonaJpaService.guardar(e5);
+		 * 
+		 * 
+		 */
 
-		this.iPersonaJpaService.guardar(e4);
-		
-		Persona e5 = new Persona();
+		// LOG.info("Persona encontrada: " +
+		// this.iPersonaJpaService.buscarPorCedula("1470"));
 
-		e5.setNombre("Alejandra");
-		e5.setApellido("Perez");
-		e5.setCedula("1230");
-		e5.setGenero("F");
+		List<Persona> listaPersona = this.iPersonaJpaService.buscarPorNombre("Alejandra");
 
-		this.iPersonaJpaService.guardar(e5);
-		
-		
-	*/	
-		
-		
-		//LOG.info("Persona encontrada: " + this.iPersonaJpaService.buscarPorCedula("1470"));
-		
-		
-		List <Persona> listaPersona = this.iPersonaJpaService.buscarPorApellido("Perez");
-		
-		for(Persona item : listaPersona) {
-			
-			LOG.info("Persona: "+ item);
+		for (Persona item : listaPersona) {
+
+			LOG.info("Persona: " + item);
 		}
-		
-	
+
+		List<Persona> listaPersonaGenero = this.iPersonaJpaService.buscarPorGenero("M");
+
+		for (Persona item : listaPersonaGenero) {
+
+			LOG.info("Persona: " + item);
+		}
 
 	}
 
