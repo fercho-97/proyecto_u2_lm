@@ -27,39 +27,17 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 
-		Persona e4 = new Persona();
-		/*
-		 * e4.setNombre("Juan"); e4.setApellido("Perez"); e4.setCedula("1990");
-		 * e4.setGenero("M");
-		 * 
-		 * this.iPersonaJpaService.guardar(e4);
-		 * 
-		 * Persona e5 = new Persona();
-		 * 
-		 * e5.setNombre("Alejandra"); e5.setApellido("Perez"); e5.setCedula("1230");
-		 * e5.setGenero("F");
-		 * 
-		 * this.iPersonaJpaService.guardar(e5);
-		 * 
-		 * 
-		 */
+		// Actualizar por apellido
 
-		// LOG.info("Persona encontrada: " +
-		// this.iPersonaJpaService.buscarPorCedula("1470"));
+		// int resultado = this.iPersonaJpaService.actualizarPorApellido("FE", "Perez");
 
-		List<Persona> listaPersona = this.iPersonaJpaService.buscarPorNombre("Alejandra");
+		// LOG.info("El numero personas actulizadas son: " + resultado);
 
-		for (Persona item : listaPersona) {
+		// Eliminar por genero
 
-			LOG.info("Persona: " + item);
-		}
+		int resultado2 = this.iPersonaJpaService.eliminarPorGenero("FE");
 
-		List<Persona> listaPersonaGenero = this.iPersonaJpaService.buscarPorGenero("M");
-
-		for (Persona item : listaPersonaGenero) {
-
-			LOG.info("Persona: " + item);
-		}
+		LOG.info("El numero personas eliminadas son: " + resultado2);
 
 	}
 
