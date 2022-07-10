@@ -1,7 +1,6 @@
 package com.uce.edu.demo.estudiante.service;
 
 import com.uce.edu.demo.estudiante.repository.modelo.Estudiante;
-import com.uce.edu.demo.repository.modelo.Persona;
 
 public interface IEstudianteJpaService {
 
