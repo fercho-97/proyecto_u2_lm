@@ -8,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.uce.edu.demo.estudiante.repository.modelo.Estudiante;
+import com.uce.edu.demo.estudiante.service.IEstudianteJpaService;
 import com.uce.edu.demo.repository.modelo.Persona;
 import com.uce.edu.demo.service.IPersonaJpaService;
 
@@ -19,6 +21,9 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	@Autowired
 	private IPersonaJpaService iPersonaJpaService;
 
+	@Autowired
+	private IEstudianteJpaService iEstudianteJpaService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoU2LmApplication.class, args);
 	}
@@ -26,24 +31,58 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
+		
+		
+		
+		LOG.info("Busqueda por Nombre o Apellido TYPED");
 
-		LOG.info("Persona Typed: " + this.iPersonaJpaService.buscarPorCedulaTyped("1470"));
+		List<Estudiante> listaEstudiante1 = this.iEstudianteJpaService.buscarPorNombreOrApellidoTyped("Juan",
+				"Ramirez");
 
-		LOG.info("Persona Named: " + this.iPersonaJpaService.buscarPorCedulaNamed("1880"));
+		for (Estudiante item : listaEstudiante1) {
+			LOG.info("Estudiante: " + item);
+			
+			
+		}
 
-		LOG.info("Persona TypedNamed: " + this.iPersonaJpaService.buscarPorCedulaTypedNamed("1796"));
+		LOG.info("Busqueda por Nombre y Semestre Typed");
+		List<Estudiante> listaEstudiante2 = this.iEstudianteJpaService.buscarPorNombreSemestreTyped("Pablo", "septimo");
 
-		Persona p1 = new Persona();
-		p1.setApellido("Suarez");
-		p1.setCedula("1234");
-		p1.setGenero("F");
-		p1.setNombre("Andres");
-		// this.iPersonaJpaService.guardar(p1);
+		for (Estudiante item : listaEstudiante2) {
+			LOG.info("Estudiante: " + item);
+		}
 
-		List<Persona> listaPersonas = this.iPersonaJpaService.buscarPorNombreApellido("Andres", "Suarez");
+		LOG.info("Busqueda por Nombre y Apellido Named");
+		List<Estudiante> listaEstudiante3 = this.iEstudianteJpaService.buscarPorNombreApellidoNamed("Juan",
+				"Velastegui");
 
-		for (Persona item : listaPersonas) {
-			LOG.info("Persona : " + item);
+		for (Estudiante item : listaEstudiante3) {
+			LOG.info("Estudiante: " + item);
+		}
+
+		
+		LOG.info("Busqueda por Nombre y Categoria Named");
+		List<Estudiante> listaEstudiante4 = this.iEstudianteJpaService.buscarPorNombreCategoriaNamed("Nicol",
+				"Promedio");
+
+		for (Estudiante item : listaEstudiante4) {
+			LOG.info("Estudiante: " + item);
+		}
+
+		LOG.info("Busqueda por Nombre y Apellido y Semestre TypedNamed");
+		List<Estudiante> listaEstudiante5 = this.iEstudianteJpaService
+				.buscarPorNombreApellidoSemestreTypedNamed("Vianca", "Ramirez", "cuarto");
+
+		for (Estudiante item : listaEstudiante5) {
+			LOG.info("Estudiante: " + item);
+		}
+
+		LOG.info("Busqueda por Apellido o Categoria TypedNamed");
+		List<Estudiante> listaEstudiante6 = this.iEstudianteJpaService.buscarPorApellidoOrCategoriaTypedNamed("Buitron",
+				"quinto");
+
+		for (Estudiante item : listaEstudiante6) {
+			LOG.info("Estudiante: " + item);
 		}
 
 	}
