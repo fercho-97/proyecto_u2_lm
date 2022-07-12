@@ -5,11 +5,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "persona")
+@NamedQuery(name = "Persona.buscarPorCedula", query = "SELECT p FROM Persona p WHERE p.cedula = :datoCedula")
+@NamedQuery(name = "Persona.buscarPorNombreApellido", query = "SELECT p FROM Persona p WHERE p.nombre = :datoNombre AND p.apellido = :datoApellido")
+
+/*@NamedQueries({
+		@NamedQuery(name = "Persona.buscarPorCedula", query = "SELECT p FROM Persona p WHERE p.cedula = :datoCedula"),
+		@NamedQuery(name = "Persona.buscarPorNombreApellido", query = "SELECT p FROM Persona p WHERE p.nombre = :datoNombre AND p.apellido = :datoApellido") })
+*/
 public class Persona {
 
 	@Id
@@ -17,17 +26,16 @@ public class Persona {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pers_id_seq")
 	@SequenceGenerator(name = "pers_id_seq", sequenceName = "pers_id_seq", allocationSize = 1)
 	private Integer id;
-	
+
 	@Column(name = "pers_cedula")
 	private String cedula;
 
 	@Column(name = "pers_nombre")
 	private String nombre;
 
-
 	@Column(name = "pers_apellido")
 	private String apellido;
-	
+
 	@Column(name = "pers_genero")
 	private String genero;
 
@@ -77,7 +85,5 @@ public class Persona {
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
-	
-	
-	
+
 }
