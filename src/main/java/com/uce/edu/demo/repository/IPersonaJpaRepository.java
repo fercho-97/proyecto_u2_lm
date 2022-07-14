@@ -39,7 +39,7 @@ public interface IPersonaJpaRepository {
 	
 	public List<Persona> buscarPorNombreApellido(String nombre, String apellido);
 	
-	
+	//---------------------------------------------------------
 	public Persona buscarPorCedulaNative(String cedula);
 	
 	public Persona buscarPorCedulaNamedNative(String cedula);

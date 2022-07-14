@@ -29,4 +29,16 @@ public interface IEstudianteJpaRepository {
 
 	public List<Estudiante> buscarPorApellidoOrCategoriaTypedNamed(String apellido, String categoria);
 
+	// ------------------------------------------------------
+	public List<Estudiante> buscarPorApellidoSemestreOrCategoriaNative(String apellido, String semestre,
+			String categoria);
+
+	public List<Estudiante> buscarPorSemestreCategoriaNative(String semestre, String categoria);
+
+	// ------------------------------------------------------
+	public List<Estudiante> buscarPorNombreOrCategoriaNamedNative(String nombre, String categoria);
+
+	public List<Estudiante> buscarPorNombreOrCategoriaOrSemestreNamedNative(String nombre, String categoria,
+			String semestre);
+
 }

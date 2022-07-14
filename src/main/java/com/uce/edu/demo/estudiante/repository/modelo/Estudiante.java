@@ -5,9 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.uce.edu.demo.repository.modelo.Persona;
 
 @Entity
 @Table(name = "estudiante")
@@ -15,6 +19,11 @@ import javax.persistence.Table;
 @NamedQuery(name = "Estudiante.buscarPorNombreCategoria", query = "SELECT e FROM Estudiante e WHERE e.nombre = :datoNombre AND e.categoria = :datoCategoria ORDER BY e.semestre ASC")
 @NamedQuery(name = "Estudiante.buscarPorNombreApellidoSemestre", query = "SELECT e FROM Estudiante e WHERE e.nombre = :datoNombre AND e.apellido = :datoApellido AND e.semestre = :datoSemestre")
 @NamedQuery(name = "Estudiante.buscarPorApellidoOrCategoria", query = "SELECT e FROM Estudiante e WHERE e.apellido = :datoApellido OR e.categoria = :datoCategoria")
+
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "Estudiante.buscarPorNombreOrCategoriaNamedNative", query = "SELECT * FROM estudiante WHERE nombre = :datoNombre OR categoria = :datoCategoria", resultClass = Estudiante.class),
+		@NamedNativeQuery(name = "Estudiante.buscarPorNombreOrCategoriaOrSemestreNamedNative", query = "SELECT * FROM estudiante WHERE nombre = :datoNombre OR categoria = :datoCategoria OR semestre = :datoSemestre", resultClass = Estudiante.class) 
+})
 
 public class Estudiante {
 

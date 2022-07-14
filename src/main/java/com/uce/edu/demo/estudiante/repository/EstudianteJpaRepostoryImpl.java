@@ -101,10 +101,56 @@ public class EstudianteJpaRepostoryImpl implements IEstudianteJpaRepository {
 	@Override
 	public List<Estudiante> buscarPorApellidoOrCategoriaTypedNamed(String apellido, String categoria) {
 		// TODO Auto-generated method stub
-		TypedQuery<Estudiante> myQuery = this.entityManager
-				.createNamedQuery("Estudiante.buscarPorApellidoOrCategoria", Estudiante.class);
+		TypedQuery<Estudiante> myQuery = this.entityManager.createNamedQuery("Estudiante.buscarPorApellidoOrCategoria",
+				Estudiante.class);
 		myQuery.setParameter("datoApellido", apellido);
 		myQuery.setParameter("datoCategoria", categoria);
+		return myQuery.getResultList();
+	}
+
+	@Override
+	public List<Estudiante> buscarPorApellidoSemestreOrCategoriaNative(String apellido, String semestre,
+			String categoria) {
+		// TODO Auto-generated method stub
+		Query myQuery = this.entityManager.createNativeQuery(
+				"SELECT * FROM estudiante WHERE apellido = :datoApellido AND semestre = :datoSemestre OR categoria = :datoCategoria",
+				Estudiante.class);
+		myQuery.setParameter("datoApellido", apellido);
+		myQuery.setParameter("datoSemestre", semestre);
+		myQuery.setParameter("datoCategoria", categoria);
+		return (List<Estudiante>) myQuery.getResultList();
+	}
+
+	@Override
+	public List<Estudiante> buscarPorSemestreCategoriaNative(String semestre, String categoria) {
+		// TODO Auto-generated method stub
+		Query myQuery = this.entityManager.createNativeQuery(
+				"SELECT * FROM estudiante WHERE semestre = :datoSemestre AND categoria = :datoCategoria",
+				Estudiante.class);
+		myQuery.setParameter("datoSemestre", semestre);
+		myQuery.setParameter("datoCategoria", categoria);
+		return (List<Estudiante>) myQuery.getResultList();
+	}
+
+	@Override
+	public List<Estudiante> buscarPorNombreOrCategoriaNamedNative(String nombre, String categoria) {
+		// TODO Auto-generated method stub
+		TypedQuery<Estudiante> myQuery = this.entityManager
+				.createNamedQuery("Estudiante.buscarPorNombreOrCategoriaNamedNative", Estudiante.class);
+		myQuery.setParameter("datoNombre", nombre);
+		myQuery.setParameter("datoCategoria", categoria);
+		return myQuery.getResultList();
+	}
+
+	@Override
+	public List<Estudiante> buscarPorNombreOrCategoriaOrSemestreNamedNative(String nombre, String categoria,
+			String semestre) {
+		// TODO Auto-generated method stub
+		TypedQuery<Estudiante> myQuery = this.entityManager
+				.createNamedQuery("Estudiante.buscarPorNombreOrCategoriaOrSemestreNamedNative", Estudiante.class);
+		myQuery.setParameter("datoNombre", nombre);
+		myQuery.setParameter("datoCategoria", categoria);
+		myQuery.setParameter("datoSemestre", semestre);
 		return myQuery.getResultList();
 	}
 
