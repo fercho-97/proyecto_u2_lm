@@ -32,45 +32,13 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 
-		LOG.info("Estudiante Native 1: ");
+		Persona per = this.iPersonaJpaService.buscarPorCedulaCriteriaApi("1130");
 
-		List<Estudiante> listaEstudiante1 = this.iEstudianteJpaService
-				.buscarPorApellidoSemestreOrCategoriaNative("Buitron", "sexto", "Baja");
+		LOG.info("Persona : " + per);
 
-		for (Estudiante item : listaEstudiante1) {
-			LOG.info("Estudiante: " + item);
+		Persona per1 = this.iPersonaJpaService.buscaDinamica("Xavier","Condor","M");
 
-		}
-
-		LOG.info("Estudiante Native 2: ");
-
-		List<Estudiante> listaEstudiante2 = this.iEstudianteJpaService.buscarPorSemestreCategoriaNative("quinto",
-				"Excelencia");
-
-		for (Estudiante item : listaEstudiante2) {
-			LOG.info("Estudiante: " + item);
-
-		}
-
-		LOG.info("Estudiante Named Native 1: ");
-
-		List<Estudiante> listaEstudiante3 = this.iEstudianteJpaService.buscarPorNombreOrCategoriaNamedNative("Juan",
-				"Promedio");
-
-		for (Estudiante item : listaEstudiante3) {
-			LOG.info("Estudiante: " + item);
-
-		}
-
-		LOG.info("Estudiante Named Native 2: ");
-
-		List<Estudiante> listaEstudiante4 = this.iEstudianteJpaService
-				.buscarPorNombreOrCategoriaOrSemestreNamedNative("Nicol", "Excelencia", "primero");
-
-		for (Estudiante item : listaEstudiante4) {
-			LOG.info("Estudiante: " + item);
-
-		}
+		LOG.info("Persona : " + per1);
 
 	}
 

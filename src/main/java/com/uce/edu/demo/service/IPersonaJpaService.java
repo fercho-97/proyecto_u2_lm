@@ -40,5 +40,11 @@ public interface IPersonaJpaService {
 	public Persona buscarPorCedulaNative(String cedula);
 	
 	public Persona buscarPorCedulaNamedNative(String cedula);
+	
+	//---------------------------------------
+	
+	public Persona buscarPorCedulaCriteriaApi(String cedula);
+	
+	public Persona buscaDinamica(String nombre, String apellido, String genero);
 
 }
