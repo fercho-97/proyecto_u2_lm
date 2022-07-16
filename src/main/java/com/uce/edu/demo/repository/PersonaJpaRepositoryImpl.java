@@ -224,6 +224,7 @@ public class PersonaJpaRepositoryImpl implements IPersonaJpaRepository {
 
 			miPredicadoFinal = myCriteria.and(predicadoNombre, predicadoApellido);
 		} else {
+			
 			miPredicadoFinal = myCriteria.or(predicadoNombre, predicadoApellido);
 		}
 
