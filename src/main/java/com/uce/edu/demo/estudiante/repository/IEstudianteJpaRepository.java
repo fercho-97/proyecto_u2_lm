@@ -41,4 +41,9 @@ public interface IEstudianteJpaRepository {
 	public List<Estudiante> buscarPorNombreOrCategoriaOrSemestreNamedNative(String nombre, String categoria,
 			String semestre);
 
+	//--------------------------------------------------------
+	public List<Estudiante> buscarDinamicamente(String nombre, String apellido, String categoria);
+
+	public List<Estudiante> busquedaDinamicaPredicados(String nombre, String apellido, String semestre, String categoria);
+
 }

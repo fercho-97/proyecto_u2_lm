@@ -32,14 +32,30 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 
-		Persona per = this.iPersonaJpaService.buscarPorCedulaCriteriaApi("1130");
+		List<Estudiante> listaEstudiante1 = this.iEstudianteJpaService.buscarDinamicamente("Juan", "Velastegui",
+				"Excelencia");
 
-		LOG.info("Persona : " + per);
+		for (Estudiante item : listaEstudiante1) {
+			LOG.info("Estudiante: " + item);
 
-		Persona per1 = this.iPersonaJpaService.buscaDinamica("Xavier","Condor","M");
+		}
 
-		LOG.info("Persona : " + per1);
+		List<Estudiante> listaEstudiante2 = this.iEstudianteJpaService.busquedaDinamicaPredicados("Nicol", "Velastegui",
+				"sexto", "Promedio");
 
+		for (Estudiante item : listaEstudiante2) {
+			LOG.info("Estudiante 2: " + item);
+
+		}
+		
+		
+		List<Estudiante> listaEstudiante3 = this.iEstudianteJpaService.busquedaDinamicaPredicados("Pablo", "Buitron",
+				"primero", "Promedio");
+
+		for (Estudiante item : listaEstudiante3) {
+			LOG.info("Estudiante 3: " + item);
+
+		}
 	}
 
 }

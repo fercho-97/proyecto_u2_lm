@@ -6,11 +6,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
 import com.uce.edu.demo.estudiante.repository.modelo.Estudiante;
+import com.uce.edu.demo.repository.modelo.Persona;
 
 @Repository
 @Transactional
@@ -152,6 +157,83 @@ public class EstudianteJpaRepostoryImpl implements IEstudianteJpaRepository {
 		myQuery.setParameter("datoCategoria", categoria);
 		myQuery.setParameter("datoSemestre", semestre);
 		return myQuery.getResultList();
+	}
+
+	@Override
+	public List<Estudiante> buscarDinamicamente(String nombre, String apellido, String categoria) {
+		// TODO Auto-generated method stub
+
+		CriteriaBuilder myCriteria = this.entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<Estudiante> myQuery = myCriteria.createQuery(Estudiante.class);
+
+		Root<Estudiante> myTabla = myQuery.from(Estudiante.class);
+
+		Predicate predicadoNombre = myCriteria.equal(myTabla.get("nombre"), nombre);
+
+		Predicate predicadoApellido = myCriteria.equal(myTabla.get("apellido"), apellido);
+
+		Predicate predicadoCategoria = myCriteria.equal(myTabla.get("categoria"), categoria);
+		
+		Predicate miPredicadoFinal = null;
+
+		if (categoria.equals("Baja")) {
+
+			miPredicadoFinal = myCriteria.or(predicadoNombre, predicadoApellido);
+			miPredicadoFinal = myCriteria.and(miPredicadoFinal, predicadoCategoria);
+			
+		} else if (categoria.equals("Promedio")) {
+
+			miPredicadoFinal = myCriteria.and(predicadoNombre, predicadoApellido, predicadoCategoria);
+			
+		}  else {
+
+			miPredicadoFinal = myCriteria.and(predicadoApellido,predicadoCategoria);
+
+		}
+
+		myQuery.select(myTabla).where(miPredicadoFinal);
+
+		TypedQuery<Estudiante> myQueryFinal = this.entityManager.createQuery(myQuery);
+
+		return myQueryFinal.getResultList();
+	}
+
+	@Override
+	public List<Estudiante> busquedaDinamicaPredicados(String nombre, String apellido, String semestre,
+			String categoria) {
+		// TODO Auto-generated method stub
+		CriteriaBuilder myCriteria = this.entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<Estudiante> myQuery = myCriteria.createQuery(Estudiante.class);
+
+		Root<Estudiante> myTabla = myQuery.from(Estudiante.class);
+
+		Predicate predicadoNombre = myCriteria.equal(myTabla.get("nombre"), nombre);
+
+		Predicate predicadoApellido = myCriteria.equal(myTabla.get("apellido"), apellido);
+		
+		Predicate predicadoSemestre = myCriteria.equal(myTabla.get("semestre"), semestre);
+
+		Predicate predicadoCategoria = myCriteria.equal(myTabla.get("categoria"), categoria);
+		
+		Predicate miPredicadoFinal = null;
+
+		
+		if (nombre.length()<=4) {
+
+			miPredicadoFinal = myCriteria.and(predicadoNombre, predicadoApellido, predicadoSemestre);
+		} else {
+			
+			miPredicadoFinal = myCriteria.and(predicadoNombre,predicadoCategoria);
+			
+		}
+		
+		myQuery.select(myTabla).where(miPredicadoFinal);
+
+		TypedQuery<Estudiante> myQueryFinal = this.entityManager.createQuery(myQuery);
+
+		return myQueryFinal.getResultList();
 	}
 
 }
