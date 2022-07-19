@@ -15,6 +15,8 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import com.uce.edu.demo.repository.modelo.Persona;
+import com.uce.edu.demo.repository.modelo.PersonaContadorGenero;
+import com.uce.edu.demo.repository.modelo.PersonaSencilla;
 
 @Repository
 @Transactional
@@ -224,7 +226,7 @@ public class PersonaJpaRepositoryImpl implements IPersonaJpaRepository {
 
 			miPredicadoFinal = myCriteria.and(predicadoNombre, predicadoApellido);
 		} else {
-			
+
 			miPredicadoFinal = myCriteria.or(predicadoNombre, predicadoApellido);
 		}
 
@@ -254,12 +256,12 @@ public class PersonaJpaRepositoryImpl implements IPersonaJpaRepository {
 		if (genero.equals("M")) {
 
 			miPredicadoFinal = myCriteria.or(predicadoNombre, predicadoApellido);
-			
-			miPredicadoFinal = myCriteria.and(miPredicadoFinal,predicadoGenero);
+
+			miPredicadoFinal = myCriteria.and(miPredicadoFinal, predicadoGenero);
 		} else {
-			
+
 			miPredicadoFinal = myCriteria.and(predicadoNombre, predicadoApellido);
-			miPredicadoFinal = myCriteria.or(miPredicadoFinal,predicadoGenero);
+			miPredicadoFinal = myCriteria.or(miPredicadoFinal, predicadoGenero);
 		}
 
 		myQuery.select(myTabla).where(miPredicadoFinal);
@@ -268,6 +270,32 @@ public class PersonaJpaRepositoryImpl implements IPersonaJpaRepository {
 
 		return myQueryFinal.getSingleResult();
 
+	}
+
+	@Override
+	public List<PersonaSencilla> buscarPorApellidoSencillo(String apellido) {
+		// TODO Auto-generated method stub
+
+		TypedQuery<PersonaSencilla> myQuery = this.entityManager.createQuery(
+				"SELECT NEW com.uce.edu.demo.repository.modelo.PersonaSencilla(p.nombre, p.apellido) FROM Persona p WHERE p.apellido = :datoApellido",
+				PersonaSencilla.class);
+		myQuery.setParameter("datoApellido", apellido);
+		return myQuery.getResultList();
+	}
+
+	@Override
+	public List<PersonaContadorGenero> consultarCantidadGenero() {
+		// TODO Auto-generated method stub
+		// select pers_genero, count(pers_genero) from persona GROUP BY pers_genero
+
+		// SELECT p.genero, COUNT(p.genero) FROM Persona p GROUP BY p.genero
+		// SELECT NEW com.uce.edu.demo.repository.modelo.PersonaContadorGenero p.genero,
+		// COUNT(p.genero) FROM Persona p GROUP BY p.genero
+		TypedQuery<PersonaContadorGenero> myQuery = this.entityManager.createQuery(
+				"SELECT NEW com.uce.edu.demo.repository.modelo.PersonaContadorGenero(p.genero, COUNT(p.genero)) FROM Persona p GROUP BY p.genero",
+				PersonaContadorGenero.class);
+
+		return myQuery.getResultList();
 	}
 
 }

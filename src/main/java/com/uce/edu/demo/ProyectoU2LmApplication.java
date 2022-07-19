@@ -11,6 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.uce.edu.demo.estudiante.repository.modelo.Estudiante;
 import com.uce.edu.demo.estudiante.service.IEstudianteJpaService;
 import com.uce.edu.demo.repository.modelo.Persona;
+import com.uce.edu.demo.repository.modelo.PersonaContadorGenero;
+import com.uce.edu.demo.repository.modelo.PersonaSencilla;
 import com.uce.edu.demo.service.IPersonaJpaService;
 
 @SpringBootApplication
@@ -32,30 +34,20 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 
-		List<Estudiante> listaEstudiante1 = this.iEstudianteJpaService.buscarDinamicamente("Juan", "Velastegui",
-				"Excelencia");
+		List<PersonaSencilla> listaPersonaSencilla = this.iPersonaJpaService.buscarPorApellidoSencillo("Torres");
 
-		for (Estudiante item : listaEstudiante1) {
-			LOG.info("Estudiante: " + item);
-
-		}
-
-		List<Estudiante> listaEstudiante2 = this.iEstudianteJpaService.busquedaDinamicaPredicados("Nicol", "Velastegui",
-				"sexto", "Promedio");
-
-		for (Estudiante item : listaEstudiante2) {
-			LOG.info("Estudiante 2: " + item);
+		for (PersonaSencilla item : listaPersonaSencilla) {
+			LOG.info("Persona Sencilla: " + item);
 
 		}
 		
-		
-		List<Estudiante> listaEstudiante3 = this.iEstudianteJpaService.busquedaDinamicaPredicados("Pablo", "Buitron",
-				"primero", "Promedio");
+		List<PersonaContadorGenero> listaContadorGenero = this.iPersonaJpaService.consultarCantidadGenero();
 
-		for (Estudiante item : listaEstudiante3) {
-			LOG.info("Estudiante 3: " + item);
+		for (PersonaContadorGenero item : listaContadorGenero) {
+			LOG.info("Cantidad por genero: " + item);
 
 		}
+
 	}
 
 }
