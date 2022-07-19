@@ -15,7 +15,8 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import com.uce.edu.demo.estudiante.repository.modelo.Estudiante;
-import com.uce.edu.demo.repository.modelo.Persona;
+import com.uce.edu.demo.estudiante.repository.modelo.EstudianteContadorCondicion;
+import com.uce.edu.demo.estudiante.repository.modelo.EstudianteSencillo;
 
 @Repository
 @Transactional
@@ -174,21 +175,21 @@ public class EstudianteJpaRepostoryImpl implements IEstudianteJpaRepository {
 		Predicate predicadoApellido = myCriteria.equal(myTabla.get("apellido"), apellido);
 
 		Predicate predicadoCategoria = myCriteria.equal(myTabla.get("categoria"), categoria);
-		
+
 		Predicate miPredicadoFinal = null;
 
 		if (categoria.equals("Baja")) {
 
 			miPredicadoFinal = myCriteria.or(predicadoNombre, predicadoApellido);
 			miPredicadoFinal = myCriteria.and(miPredicadoFinal, predicadoCategoria);
-			
+
 		} else if (categoria.equals("Promedio")) {
 
 			miPredicadoFinal = myCriteria.and(predicadoNombre, predicadoApellido, predicadoCategoria);
-			
-		}  else {
 
-			miPredicadoFinal = myCriteria.and(predicadoApellido,predicadoCategoria);
+		} else {
+
+			miPredicadoFinal = myCriteria.and(predicadoApellido, predicadoCategoria);
 
 		}
 
@@ -212,28 +213,50 @@ public class EstudianteJpaRepostoryImpl implements IEstudianteJpaRepository {
 		Predicate predicadoNombre = myCriteria.equal(myTabla.get("nombre"), nombre);
 
 		Predicate predicadoApellido = myCriteria.equal(myTabla.get("apellido"), apellido);
-		
+
 		Predicate predicadoSemestre = myCriteria.equal(myTabla.get("semestre"), semestre);
 
 		Predicate predicadoCategoria = myCriteria.equal(myTabla.get("categoria"), categoria);
-		
+
 		Predicate miPredicadoFinal = null;
 
-		
-		if (nombre.length()<=4) {
+		if (nombre.length() <= 4) {
 
 			miPredicadoFinal = myCriteria.and(predicadoNombre, predicadoApellido, predicadoSemestre);
 		} else {
-			
-			miPredicadoFinal = myCriteria.and(predicadoNombre,predicadoCategoria);
-			
+
+			miPredicadoFinal = myCriteria.and(predicadoNombre, predicadoCategoria);
+
 		}
-		
+
 		myQuery.select(myTabla).where(miPredicadoFinal);
 
 		TypedQuery<Estudiante> myQueryFinal = this.entityManager.createQuery(myQuery);
 
 		return myQueryFinal.getResultList();
+	}
+
+	@Override
+	public List<EstudianteSencillo> buscarPorApellidoOrNombreSencillo(String apellido, String nombre) {
+		// TODO Auto-generated method stub
+		TypedQuery<EstudianteSencillo> myQuery = this.entityManager.createQuery(
+				"SELECT NEW com.uce.edu.demo.estudiante.repository.modelo.EstudianteSencillo(e.nombre, e.apellido, e.semestre) FROM Estudiante e WHERE e.apellido = :datoApellido OR e.nombre = :datoNombre",
+				EstudianteSencillo.class);
+		myQuery.setParameter("datoApellido", apellido);
+		myQuery.setParameter("datoNombre", nombre);
+		return myQuery.getResultList();
+	}
+
+	@Override
+	public List<EstudianteContadorCondicion> consultarCantidadSemestre(String categoria) {
+		// TODO Auto-generated method stub
+		//select semestre, count(semestre) from estudiante WHERE categoria='Promedio' GROUP BY semestre
+		
+		TypedQuery<EstudianteContadorCondicion> myQuery = this.entityManager.createQuery(
+				"SELECT NEW com.uce.edu.demo.estudiante.repository.modelo.EstudianteContadorCondicion(e.semestre,  COUNT(e.semestre)) FROM Estudiante e WHERE e.categoria = :datoCategoria GROUP BY e.semestre",
+				EstudianteContadorCondicion.class);
+		myQuery.setParameter("datoCategoria", categoria);
+		return myQuery.getResultList();
 	}
 
 }

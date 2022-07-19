@@ -3,6 +3,8 @@ package com.uce.edu.demo.estudiante.service;
 import java.util.List;
 
 import com.uce.edu.demo.estudiante.repository.modelo.Estudiante;
+import com.uce.edu.demo.estudiante.repository.modelo.EstudianteContadorCondicion;
+import com.uce.edu.demo.estudiante.repository.modelo.EstudianteSencillo;
 
 public interface IEstudianteJpaService {
 
@@ -46,4 +48,9 @@ public interface IEstudianteJpaService {
 	public List<Estudiante> buscarDinamicamente(String nombre, String apellido, String semestre);
 
 	public List<Estudiante> busquedaDinamicaPredicados(String nombre, String apellido, String semestre, String categoria);
+	
+	//------------------------------------------------------
+	public List<EstudianteSencillo> buscarPorApellidoOrNombreSencillo(String apellido, String nombre);
+	
+	public List<EstudianteContadorCondicion> consultarCantidadSemestre(String categoria);
 }
