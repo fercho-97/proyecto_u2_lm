@@ -1,6 +1,6 @@
 package com.uce.edu.demo;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +9,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.uce.edu.demo.estudiante.service.IEstudianteJpaService;
-import com.uce.edu.demo.registro.repository.modelo.CiudadanoAc;
-import com.uce.edu.demo.registro.repository.modelo.Pasaporte;
 import com.uce.edu.demo.registro.service.ICiudadanoEcService;
+import com.uce.edu.demo.repository.modelo.onetomany.Habitacion;
+import com.uce.edu.demo.repository.modelo.onetomany.Hotel;
 import com.uce.edu.demo.service.ICiudadanoService;
+import com.uce.edu.demo.service.IHabitacionService;
+import com.uce.edu.demo.service.IHotelService;
 import com.uce.edu.demo.service.IPersonaJpaService;
 
 @SpringBootApplication
@@ -32,6 +34,12 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	@Autowired
 	private ICiudadanoEcService iCiudadanoEcService;
 
+	@Autowired
+	private IHotelService iHotelService;
+	
+	@Autowired
+	private IHabitacionService iHabitacionService;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoU2LmApplication.class, args);
 	}
@@ -39,44 +47,41 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-
-		Pasaporte p1 = new Pasaporte();
-		p1.setNumero("4589632");
-		p1.setFechaCaducidad(LocalDateTime.now());
-		p1.setFechaEmision(LocalDateTime.now());
+/*
+		Hotel h1= new Hotel();
+		
+		h1.setNombre("Hilton Colon GUY");
+		h1.setDireccion("Malecon 2000");
 		
 
+		this.iHotelService.insertar(h1);
 		
+		*/
 		
-		CiudadanoAc c1 = new CiudadanoAc();
-		c1.setNombre("Alejandro");
-		c1.setApellido("Monntes");
-		c1.setCedula("18932684");
-		c1.setFechaNacimiento(LocalDateTime.now());
-		c1.setPasaporte(p1);
+		Hotel h1= new Hotel();
 		
-		p1.setCiudadanoEc(c1);
-		this.iCiudadanoEcService.insetar(c1);
-		
+		h1.setId(1);
 		
 	
-		CiudadanoAc c2 = new CiudadanoAc();
-		c2.setNombre("Pedro");
-		c2.setApellido("Prado");
-		c2.setCedula("17125883");
-		c2.setFechaNacimiento(LocalDateTime.now());
+		
+		Habitacion habi1 = new Habitacion();
+		habi1.setNumero("A234");
+		habi1.setPiso("10");
+		habi1.setTipo("Familiar");
+		habi1.setHotel(h1);// se puede buscar el hotel o insertar directamente. basta que tenga el id
+		
+		this.iHabitacionService.insertar(habi1);
+		
+		Habitacion habi2 = new Habitacion();
+		habi2.setNumero("A125");
+		habi2.setPiso("1");
+		habi2.setTipo("Matrimonial");
+		habi2.setHotel(h1);
+		
+		this.iHabitacionService.insertar(habi2);
 		
 		
-		this.iCiudadanoEcService.actualizar(c2);
 		
-		
-		this.iCiudadanoEcService.eliminar(2);
-		
-
-		
-		
-		
-
 	}
 
 }
