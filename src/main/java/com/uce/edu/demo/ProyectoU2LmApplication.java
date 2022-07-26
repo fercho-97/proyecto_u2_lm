@@ -1,7 +1,7 @@
 package com.uce.edu.demo;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,25 +9,27 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.uce.edu.demo.repository.modelo.manytomany.Autor;
-import com.uce.edu.demo.repository.modelo.manytomany.Libro;
-import com.uce.edu.demo.repository.modelo.onetomany.Doctor;
-import com.uce.edu.demo.repository.modelo.onetomany.Especialidad;
-import com.uce.edu.demo.service.IDoctorService;
-import com.uce.edu.demo.service.IEspecialidadService;
-import com.uce.edu.demo.service.IHabitacionService;
-import com.uce.edu.demo.service.IHotelService;
-import com.uce.edu.demo.service.ILibroService;
+import com.uce.edu.demo.repository.modelo.manytomany.Autor2;
+import com.uce.edu.demo.repository.modelo.manytomany.Libro2;
+import com.uce.edu.demo.repository.modelo.manytomany.Libro2Autor2;
+import com.uce.edu.demo.service.IAutor2Service;
+import com.uce.edu.demo.service.ILibro2Autor2Service;
+import com.uce.edu.demo.service.ILibro2Service;
 
 @SpringBootApplication
 public class ProyectoU2LmApplication implements CommandLineRunner {
 
 	private static Logger LOG = Logger.getLogger(ProyectoU2LmApplication.class);
 
+	@Autowired
+	private ILibro2Service iLibro2Service;
 
 	@Autowired
-	private ILibroService iLibroService;
-	
+	private IAutor2Service iAutor2Service;
+
+	@Autowired
+	private ILibro2Autor2Service iLibro2Autor2Service;
+
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoU2LmApplication.class, args);
 	}
@@ -35,24 +37,64 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		
-		Autor a1 = new Autor();
-		a1.setNombre("Naguib Mahfuz");
-		
-		Autor a2 = new Autor();
-		a2.setNombre("Lu Xun");
-		
-		Set<Autor> autores = new HashSet<>();
-		autores.add(a1);
-		autores.add(a2);
-		
-		
-		Libro l1 = new Libro();
-		l1.setTitulo("Diario de un loco");
-		l1.setCantidadPaginas(500);
-		l1.setAutores(autores);
-		
-		 this.iLibroService.insetar(l1);
+
+		// 1 libro - 2 autores
+
+		Autor2 a1 = new Autor2();
+		a1.setNombre("Juan");
+
+		Autor2 a2 = new Autor2();
+		a2.setNombre("Michael");
+
+		this.iAutor2Service.insetar(a1);
+		this.iAutor2Service.insetar(a2);
+
+		Libro2 l1 = new Libro2();
+		l1.setTitulo("las montanas");
+		l1.setCantidadPaginas(300);
+
+		this.iLibro2Service.insetar(l1);
+
+		Libro2Autor2 m1 = new Libro2Autor2();
+		m1.setAutor2(a1);
+		m1.setLibro2(l1);
+
+		Libro2Autor2 m2 = new Libro2Autor2();
+		m2.setAutor2(a2);
+		m2.setLibro2(l1);
+
+		this.iLibro2Autor2Service.insetar(m1);
+		this.iLibro2Autor2Service.insetar(m2);
+
+		// 1 autor - 2 libros
+
+		Autor2 a3 = new Autor2();
+		a3.setNombre("Mario Vargas");
+
+		this.iAutor2Service.insetar(a3);
+
+		Libro2 l2 = new Libro2();
+		l2.setTitulo("la ciudad y los perros");
+		l2.setCantidadPaginas(620);
+
+		Libro2 l3 = new Libro2();
+		l3.setTitulo("la fiesta del chivo");
+		l3.setCantidadPaginas(470);
+
+		this.iLibro2Service.insetar(l2);
+		this.iLibro2Service.insetar(l3);
+
+		Libro2Autor2 m3 = new Libro2Autor2();
+		m3.setAutor2(a3);
+		m3.setLibro2(l2);
+
+		Libro2Autor2 m4 = new Libro2Autor2();
+		m4.setAutor2(a3);
+		m4.setLibro2(l3);
+
+		this.iLibro2Autor2Service.insetar(m3);
+		this.iLibro2Autor2Service.insetar(m4);
+
 	}
 
 }
