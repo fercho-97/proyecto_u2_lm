@@ -9,6 +9,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.uce.edu.demo.cajero.repository.modelo.DetalleFactura;
+import com.uce.edu.demo.cajero.repository.modelo.Factura;
+import com.uce.edu.demo.cajero.service.IFacturaService;
 import com.uce.edu.demo.repository.modelo.manytomany.Autor2;
 import com.uce.edu.demo.repository.modelo.manytomany.Libro2;
 import com.uce.edu.demo.repository.modelo.manytomany.Libro2Autor2;
@@ -29,6 +32,9 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 
 	@Autowired
 	private ILibro2Autor2Service iLibro2Autor2Service;
+	
+	@Autowired
+	private IFacturaService iFacturaService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoU2LmApplication.class, args);
@@ -37,7 +43,20 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-
+		
+		Factura f1 = this.iFacturaService.consultar(1);
+		LOG.info("numero: " +f1.getNumero());
+		LOG.info("fecha: " +f1.getFecha());
+		LOG.info("cliente: " + f1.getCliente().getNumeroTarjeta());
+		
+		List<DetalleFactura> detalleFacturas = f1.getDetalleFacturas();
+		
+		for(DetalleFactura deta : detalleFacturas) {
+			
+			LOG.info("deatlle: " + deta);
+		}
+		
+/*
 		// 1 libro - 2 autores
 
 		Autor2 a1 = new Autor2();
@@ -94,7 +113,10 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 
 		this.iLibro2Autor2Service.insetar(m3);
 		this.iLibro2Autor2Service.insetar(m4);
-
+*/
+		
+		
+		
 	}
 
 }
