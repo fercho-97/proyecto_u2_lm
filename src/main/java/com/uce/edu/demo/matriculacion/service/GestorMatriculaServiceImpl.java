@@ -66,8 +66,8 @@ public class GestorMatriculaServiceImpl implements IGestorMatriculaService {
 		Matricula m = new Matricula();
 		m.setFechaMatricula(LocalDate.now());
 		m.setValorMatricula(this.iVehiculoServiceLiviano.calcularValor(v.getPrecio()));
-		m.setP(p);
-		m.setV(v);
+		m.setPropietario(p);
+		m.setVehiculo(v);
 		this.iMatriculaRepository.insertar(m);
 
 	}

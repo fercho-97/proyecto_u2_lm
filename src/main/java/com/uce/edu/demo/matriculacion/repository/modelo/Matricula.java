@@ -3,29 +3,56 @@ package com.uce.edu.demo.matriculacion.repository.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-//@Entity
-//@Table(name = "matricula")
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "matricula")
 public class Matricula {
 
-	// @Column(name = "matri_fecha")
+	@Id
+	@Column(name = "matri_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "matri_id_seq")
+	@SequenceGenerator(name = "matri_id_seq", sequenceName = "matri_id_seq", allocationSize = 1)
+	private Integer id;
+
+	@Column(name = "matri_fecha")
 	private LocalDate fechaMatricula;
 
-	// @Column(name = "matri_valor")
+	@Column(name = "matri_valor")
 	private BigDecimal valorMatricula;
 
-	// @Column(name = "matri_propietario")
-	private Propietario p;
+	@ManyToOne
+	@JoinColumn(name = "matri_id_prop")
+	private Propietario propietario;
 
-	// @Column(name = "matri_vehiculo")
-	private Vehiculo v;
+	@OneToOne
+	@JoinColumn(name = "matri_id_vehi") // representa la FK
+	private Vehiculo vehiculo;
 
 	@Override
 	public String toString() {
-		return "Matricula [fechaMatricula=" + fechaMatricula + ", valorMatricula=" + valorMatricula + ", p=" + p
-				+ ", v=" + v + "]";
+		return "Matricula [id=" + id + ", fechaMatricula=" + fechaMatricula + ", valorMatricula=" + valorMatricula
+				+ ", propietario=" + propietario + ", vehiculo=" + vehiculo + "]";
 	}
 
 	// SET Y GET
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public LocalDate getFechaMatricula() {
 		return fechaMatricula;
 	}
@@ -42,20 +69,20 @@ public class Matricula {
 		this.valorMatricula = valorMatricula;
 	}
 
-	public Propietario getP() {
-		return p;
+	public Propietario getPropietario() {
+		return propietario;
 	}
 
-	public void setP(Propietario p) {
-		this.p = p;
+	public void setPropietario(Propietario propietario) {
+		this.propietario = propietario;
 	}
 
-	public Vehiculo getV() {
-		return v;
+	public Vehiculo getVehiculo() {
+		return vehiculo;
 	}
 
-	public void setV(Vehiculo v) {
-		this.v = v;
+	public void setVehiculo(Vehiculo vehiculo) {
+		this.vehiculo = vehiculo;
 	}
 
 }

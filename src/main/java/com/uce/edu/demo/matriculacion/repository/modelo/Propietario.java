@@ -1,8 +1,14 @@
 package com.uce.edu.demo.matriculacion.repository.modelo;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -19,9 +25,13 @@ public class Propietario {
 	@Column(name = "prop_apellido")
 	private String apellido;
 
+	@OneToMany(mappedBy = "propietario")
+	private List<Matricula> matriculas;
+
 	@Override
 	public String toString() {
-		return "Propietario [nombre=" + nombre + ", apellido=" + apellido + ", cedula=" + cedula + "]";
+		return "Propietario [cedula=" + cedula + ", nombre=" + nombre + ", apellido=" + apellido + ", matriculas="
+				+ matriculas + "]";
 	}
 
 	// SET Y GET
@@ -47,6 +57,14 @@ public class Propietario {
 
 	public void setCedula(String cedula) {
 		this.cedula = cedula;
+	}
+
+	public List<Matricula> getMatriculas() {
+		return matriculas;
+	}
+
+	public void setMatriculas(List<Matricula> matriculas) {
+		this.matriculas = matriculas;
 	}
 
 }

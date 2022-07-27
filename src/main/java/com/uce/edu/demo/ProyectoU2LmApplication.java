@@ -1,23 +1,24 @@
 package com.uce.edu.demo;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.uce.edu.demo.cajero.repository.modelo.DetalleFactura;
-import com.uce.edu.demo.cajero.repository.modelo.Factura;
 import com.uce.edu.demo.cajero.service.IFacturaService;
-import com.uce.edu.demo.repository.modelo.manytomany.Autor2;
-import com.uce.edu.demo.repository.modelo.manytomany.Libro2;
-import com.uce.edu.demo.repository.modelo.manytomany.Libro2Autor2;
+import com.uce.edu.demo.matriculacion.repository.modelo.Propietario;
+import com.uce.edu.demo.matriculacion.repository.modelo.Vehiculo;
+import com.uce.edu.demo.matriculacion.service.IGestorMatriculaService;
+import com.uce.edu.demo.matriculacion.service.IPropietarioJpaService;
+import com.uce.edu.demo.matriculacion.service.IVehiculoJpaService;
 import com.uce.edu.demo.service.IAutor2Service;
 import com.uce.edu.demo.service.ILibro2Autor2Service;
 import com.uce.edu.demo.service.ILibro2Service;
+import com.uce.edu.demo.service.IPersonaJpaService;
 
 @SpringBootApplication
 public class ProyectoU2LmApplication implements CommandLineRunner {
@@ -35,6 +36,23 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	
 	@Autowired
 	private IFacturaService iFacturaService;
+	
+	@Autowired
+	private IPersonaJpaService iPersonaJpaService;
+	
+	@Autowired
+	@Qualifier("liviano")
+	private IVehiculoJpaService iVehiculoLivianoJpaService;
+
+	@Autowired
+	@Qualifier("pesado")
+	private IVehiculoJpaService iVehiculoPesadoJpaService;
+
+	@Autowired
+	private IPropietarioJpaService iPropietarioJpaService;
+
+	@Autowired
+	private IGestorMatriculaService iGestorMatriculaService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoU2LmApplication.class, args);
@@ -43,78 +61,48 @@ public class ProyectoU2LmApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		
-		Factura f1 = this.iFacturaService.consultar(1);
-		LOG.info("numero: " +f1.getNumero());
-		LOG.info("fecha: " +f1.getFecha());
-		LOG.info("cliente: " + f1.getCliente().getNumeroTarjeta());
-		
-		List<DetalleFactura> detalleFacturas = f1.getDetalleFacturas();
-		
-		for(DetalleFactura deta : detalleFacturas) {
-			
-			LOG.info("deatlle: " + deta);
-		}
-		
-/*
-		// 1 libro - 2 autores
+	
+		Propietario p1 = new Propietario();
+		p1.setNombre("Juan");
+		p1.setApellido("Aguinaga");
+		p1.setCedula("170189");
 
-		Autor2 a1 = new Autor2();
-		a1.setNombre("Juan");
+		this.iPropietarioJpaService.insertar(p1);
 
-		Autor2 a2 = new Autor2();
-		a2.setNombre("Michael");
+		LOG.info("se ingreso el propietario: " + p1);
 
-		this.iAutor2Service.insetar(a1);
-		this.iAutor2Service.insetar(a2);
+		Propietario p2 = new Propietario();
+		p2.setNombre("Domenica");
+		p2.setApellido("Lascano");
+		p2.setCedula("171744");
 
-		Libro2 l1 = new Libro2();
-		l1.setTitulo("las montanas");
-		l1.setCantidadPaginas(300);
+		this.iPropietarioJpaService.insertar(p2);
 
-		this.iLibro2Service.insetar(l1);
+		LOG.info("se ingreso el propietario: " + p2);
 
-		Libro2Autor2 m1 = new Libro2Autor2();
-		m1.setAutor2(a1);
-		m1.setLibro2(l1);
+		Vehiculo v1 = new Vehiculo();
+		v1.setMarca("chevrolet");
+		v1.setModelo("onix");
+		v1.setPlaca("PYU0895");
+		v1.setPrecio(new BigDecimal(5000));
+		v1.setTipo("L");
 
-		Libro2Autor2 m2 = new Libro2Autor2();
-		m2.setAutor2(a2);
-		m2.setLibro2(l1);
+		this.iVehiculoLivianoJpaService.insertar(v1);
+		LOG.info("se ingreso el vehiculo: " + v1);
 
-		this.iLibro2Autor2Service.insetar(m1);
-		this.iLibro2Autor2Service.insetar(m2);
+		Vehiculo v2 = new Vehiculo();
+		v2.setMarca("HINO");
+		v2.setModelo("serie500");
+		v2.setPlaca("LBA7899");
+		v2.setPrecio(new BigDecimal(10000));
+		v2.setTipo("P");
 
-		// 1 autor - 2 libros
+		this.iVehiculoLivianoJpaService.insertar(v2);
+		LOG.info("se ingreso el vehiculo: " + v2);
 
-		Autor2 a3 = new Autor2();
-		a3.setNombre("Mario Vargas");
+		this.iGestorMatriculaService.matricular("171744", "PYU0895");
 
-		this.iAutor2Service.insetar(a3);
-
-		Libro2 l2 = new Libro2();
-		l2.setTitulo("la ciudad y los perros");
-		l2.setCantidadPaginas(620);
-
-		Libro2 l3 = new Libro2();
-		l3.setTitulo("la fiesta del chivo");
-		l3.setCantidadPaginas(470);
-
-		this.iLibro2Service.insetar(l2);
-		this.iLibro2Service.insetar(l3);
-
-		Libro2Autor2 m3 = new Libro2Autor2();
-		m3.setAutor2(a3);
-		m3.setLibro2(l2);
-
-		Libro2Autor2 m4 = new Libro2Autor2();
-		m4.setAutor2(a3);
-		m4.setLibro2(l3);
-
-		this.iLibro2Autor2Service.insetar(m3);
-		this.iLibro2Autor2Service.insetar(m4);
-*/
-		
+		this.iGestorMatriculaService.matricular("171744", "LBA7899");
 		
 		
 	}
